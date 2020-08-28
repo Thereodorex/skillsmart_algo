@@ -48,8 +48,12 @@ class LinkedList:
 				if current == self.head:
 					self.head = self.head.next
 					prev = self.head
+					if self.head == None:
+						self.tail = None
 				else:
 					prev.next = current.next
+					if prev == None or prev.next == None:
+						self.tail = prev
 				if not all:
 					break
 			else:

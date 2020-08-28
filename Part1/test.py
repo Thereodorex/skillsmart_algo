@@ -60,7 +60,9 @@ class Test(unittest.TestCase):
 			(self.create_list([3, 3, 1, 4]), 3),
 			(self.create_list([1, 3, 4, 3]), 3),
 			(self.create_list([3, 1, 3]), 3),
-			(self.create_list([3, 3]), 3)
+			(self.create_list([3, 3]), 3),
+			(self.create_list([2, 3, 3]), 3),
+			(self.create_list([1, 3, 2, 3, 3]), 3)
 		]
 		results = [
 			[1, 4],
@@ -68,12 +70,19 @@ class Test(unittest.TestCase):
 			[1, 4],
 			[1, 4],
 			[1],
-			[]
+			[],
+			[2],
+			[1, 2]
 		]
 		for i, c in enumerate(cases):
 			with self.subTest(case=c):
 				(c[0]).delete(c[1], all=True)
 				self.assertEqual(self.to_list(c[0]), results[i])
+			with self.subTest(case=c):
+				if len(results[i]):
+					self.assertEqual(c[0].tail.value, results[i][-1])
+				else:
+					self.assertEqual(c[0].tail, None)
 
 	def test_clean(self):
 		cases = [
