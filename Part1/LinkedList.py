@@ -75,3 +75,5 @@ class LinkedList:
 	def insert(self, afterNode, newNode):
 		newNode.next = afterNode.next
 		afterNode.next = newNode
+		if afterNode == self.tail:
+			self.tail = newNode
