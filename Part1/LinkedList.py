@@ -73,7 +73,13 @@ class LinkedList:
 		return res
 
 	def insert(self, afterNode, newNode):
-		newNode.next = afterNode.next
-		afterNode.next = newNode
-		if afterNode == self.tail:
-			self.tail = newNode
+		if afterNode == None:
+			if self.head == None:
+				self.tail = newNode
+			newNode.next = self.head
+			self.head = newNode
+		else:
+			newNode.next = afterNode.next
+			afterNode.next = newNode
+			if afterNode == self.tail:
+				self.tail = newNode
