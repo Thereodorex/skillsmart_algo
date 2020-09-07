@@ -72,7 +72,6 @@ class LinkedList2:
         newNode.next = None
         newNode.prev = None
         if afterNode is None:
-            # TODO Узнать почему добавляем в конец
             self.add_in_tail(newNode)
         else:
             newNode.prev = afterNode
