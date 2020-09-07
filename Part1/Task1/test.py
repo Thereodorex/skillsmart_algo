@@ -13,9 +13,13 @@ class Test(unittest.TestCase):
 	def to_list(self, linked_list):
 		res = []
 		current = linked_list.head
+		tail = None
 		while current is not None:
 			res.append(current.value)
+			tail = current
 			current = current.next
+		if linked_list.tail != tail:
+			raise Exception('Потерян конец списка')
 		return res
 
 	def create_list(self, source):
@@ -78,11 +82,6 @@ class Test(unittest.TestCase):
 			with self.subTest(case=c):
 				(c[0]).delete(c[1], all=True)
 				self.assertEqual(self.to_list(c[0]), results[i])
-			with self.subTest(case=c):
-				if len(results[i]):
-					self.assertEqual(c[0].tail.value, results[i][-1])
-				else:
-					self.assertEqual(c[0].tail, None)
 
 	def test_clean(self):
 		cases = [
@@ -146,11 +145,13 @@ class Test(unittest.TestCase):
 
 	def test_insert(self):
 		cases = [
+			(self.create_list([]), None, 1),
 			(self.create_list([1]), 1, 2),
 			(self.create_list([1, 3]), 1, 2),
 			(self.create_list([1, 2, 3]), 3, 4),
 		]
 		results = [
+			[1],
 			[1, 2],
 			[1, 2, 3],
 			[1, 2, 3, 4],
@@ -158,7 +159,10 @@ class Test(unittest.TestCase):
 		for i, c in enumerate(cases):
 			with self.subTest(case=c):
 				list_, index, value = c
-				node = self.get_node(list_, index)
+				if index is not None:
+					node = self.get_node(list_, index)
+				else:
+					node = None
 				list_.insert(node, Node(value))
 				res = self.to_list(list_)
 				self.assertEqual(res, results[i])
