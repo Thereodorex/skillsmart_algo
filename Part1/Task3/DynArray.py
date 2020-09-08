@@ -55,8 +55,8 @@ class DynArray:
         if i >= self.count or i < 0:
             raise IndexError('Index is out of bounds')
         old_array = self.array
-        if self.count - 1 <= self.capacity // 2 and self.capacity != 16:
-            self.capacity //= 2
+        if self.count - 1 <= self.capacity // 2 and self.capacity > 16:
+            self.capacity = int(self.capacity / 1.5)
             if self.capacity < 16:
                 self.capacity = 16
             self.array = self.make_array(self.capacity)

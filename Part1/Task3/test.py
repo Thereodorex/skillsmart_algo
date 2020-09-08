@@ -111,6 +111,7 @@ class TestArray(unittest.TestCase):
                 res.pop(c[1])
                 self.assertEqual(array.count, len(res))
                 self.assertEqual(array.capacity, results[i])
+                self.assertEqual(array.capacity, len(array.array))
                 self.assertEqual(self.get_items(array), res)
 
     def test_delete_reduce(self):
@@ -121,7 +122,7 @@ class TestArray(unittest.TestCase):
             ([i for i in range(33)], 0),
         ]
         results = [
-            16, 16, 16, 32
+            21, 21, 21, 42
         ]
         for i, c in enumerate(cases):
             with self.subTest(case=c):
@@ -131,7 +132,24 @@ class TestArray(unittest.TestCase):
                 res.pop(c[1])
                 self.assertEqual(array.count, len(res))
                 self.assertEqual(array.capacity, results[i])
+                self.assertEqual(array.capacity, len(array.array))
                 self.assertEqual(self.get_items(array), res)
+
+    def test_long_reduce(self):
+        test_list = [i for i in range(33)]
+        test_array = self.create_array(test_list)
+        cases = [1, 11, 7, 5]
+        results = [42, 28, 18, 16]
+
+        for i, c in enumerate(cases):
+            with self.subTest(case=c):
+                for _ in range(c):
+                    test_array.delete(0)
+                    test_list.pop(0)
+                self.assertEqual(test_array.count, len(test_list))
+                self.assertEqual(test_array.capacity, results[i])
+                self.assertEqual(test_array.capacity, len(test_array.array))
+                self.assertEqual(self.get_items(test_array), test_list)
 
     def test_delete_invalid_index(self):
         cases = [
