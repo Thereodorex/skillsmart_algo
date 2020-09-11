@@ -1,30 +1,42 @@
+class Node:
+
+    def __init__(self,value):
+        self.value = value
+        self.next = None
+
 class Stack:
+    '''
+    Реализация стека на списке
+    '''
     def __init__(self):
-        self.stack = []
+        self.head = None
+        self._size = 0
 
     def size(self):
-        return len(self.stack)
+        return self._size
 
     def pop(self):
         '''
-        Сложность O(n), так как используем начало списка как верхушку стека.
-        Если использовать конец списка в качестве верхушки, то будет O(1)
+        Сложность O(1)
         '''
-        if not self.stack:
+        if self._size == 0:
             return None
-        return self.stack.pop(0)
+        self._size -= 1
+        result = self.head.value
+        self.head = self.head.next
+        return result
 
     def push(self, value):
         '''
-        Сложность O(n), так как используем начало списка как верхушку стека.
-        Если использовать конец списка в качестве верхушки, то будет O(1)
+        Сложность O(1)
         '''
-        self.stack.insert(0, value)
+        self._size += 1
+        node = Node(value)
+        node.next = self.head
+        self.head = node
 
     def peek(self):
-        if not self.stack:
-            return None
-        return self.stack[0]
+        return self.head.value
 
 
 def check_bracers(string):
