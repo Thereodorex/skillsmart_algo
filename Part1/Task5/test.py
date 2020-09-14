@@ -23,6 +23,23 @@ class TestQueue(unittest.TestCase):
             self.assertEqual(qu.size(), 0)
             self.assertEqual(pop, None)
 
+        for i, case in enumerate(cases):
+            with self.subTest(case=case):
+                qu.enqueue(case)
+                self.assertEqual(qu.size(), i + 1)
+
+        size = qu.size()
+        for i, case in enumerate(cases):
+            with self.subTest(case=case):
+                pop = qu.dequeue()
+                self.assertEqual(qu.size(), size - i - 1)
+                self.assertEqual(pop, case)
+
+        with self.subTest(case=case):
+            pop = qu.dequeue()
+            self.assertEqual(qu.size(), 0)
+            self.assertEqual(pop, None)
+
         with self.subTest(case=case):
             pop = qu.dequeue()
             self.assertEqual(qu.size(), 0)

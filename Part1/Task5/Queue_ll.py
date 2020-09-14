@@ -38,7 +38,7 @@ class Queue:
         if self._size == 0:
             return None
         result = self.head.value
-        if self.size == 1:
+        if self._size == 1:
             self.head = None
             self.tail = None
         else:
