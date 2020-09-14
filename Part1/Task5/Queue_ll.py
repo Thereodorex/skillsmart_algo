@@ -42,6 +42,7 @@ class Queue:
             self.head = None
         else:
             self.head = self.head.next
+            self.tail.next = self.head
         self._size -= 1
         return result
 
