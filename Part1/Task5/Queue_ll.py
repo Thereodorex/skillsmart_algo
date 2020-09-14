@@ -40,6 +40,7 @@ class Queue:
         result = self.head
         if self.size == 1:
             self.head = None
+            self.tail = None
         else:
             self.head = self.head.next
             self.tail.next = self.head
