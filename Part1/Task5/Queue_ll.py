@@ -35,7 +35,7 @@ class Queue:
         Взять из начала
         Сложность O(1)
         '''
-        if self.size == 0:
+        if self._size == 0:
             return None
         result = self.head.value
         if self.size == 1:
