@@ -64,6 +64,3 @@ def is_palindrome(self, string):
         if front.value != tail.value:
             return False
     return True
-
-# TODO:
-# Тесты
