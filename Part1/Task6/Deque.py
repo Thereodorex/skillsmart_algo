@@ -18,7 +18,7 @@ class Deque:
         self.tail.prev = self.head
         self._size = 0
 
-    def addAfter(self, after, item):
+    def _addAfter(self, after, item):
         node = Node(item)
         self._size += 1
         node.next = after.next
@@ -27,14 +27,15 @@ class Deque:
         after.next = node
 
     def addFront(self, item):
-        self.addAfter(self.head, item)
+        self._addAfter(self.head, item)
 
     def addTail(self, item):
-        self.addAfter(self.tail.prev, item)
+        self._addAfter(self.tail.prev, item)
 
     def _remove(self, node):
         if self._size == 0:
             return None
+        self._size -= 1
         res = node.value
         node.prev.next = node.next
         node.next.prev = node.prev
