@@ -6,17 +6,15 @@ class Node:
 
 class OrderedList:
     def __init__(self, asc = True):
-        self.head = Node(None)
-        self.tail = Node(None)
-        self.head.next = self.tail
-        self.tail.prev = self.head
+        self.head = None
+        self.tail = None
         self.__ascending = asc
         self._size = 0
 
     def __getitem__(self, index):
         if index + 1 > self.len():
             raise IndexError
-        current = self.head.next
+        current = self.head
         for i in range(index):
             current = current.next
         return current
@@ -34,51 +32,73 @@ class OrderedList:
 
     def add(self, value):
         node = Node(value)
-        current = self.head.next
-        while current.value is not None:
-            if self.compare(value, current.value) == 1:
-                break
-            current = current.next
-        node.prev = current.prev
-        node.next = current
-        current.prev.next = node
-        current.prev = node
+        if self.head is None:
+            self.head = node
+            self.tail = node
+        else:
+            current = self.head
+            while current is not None:
+                if self.compare(value, current.value) == 1:
+                    break
+                current = current.next
+            if current is None:
+                node.prev = self.tail
+                self.tail.next = node
+                self.tail = node
+            else:
+                node.prev = current.prev
+                node.next = current
+                if current == self.head:
+                    self.head = node
+                else:
+                    current.prev.next = node
+                current.prev = node
         self._size += 1
 
     def find(self, val):
-        current = self.head.next
-        while current.value is not None:
+        current = self.head
+        while current is not None:
             if self.compare(val, current.value) != -1:
                 break
             current = current.next
-        if current.value != val:
+        if current is None or current.value != val:
             return None
-        return current # здесь будет ваш код
+        return current
 
     def delete(self, val):
         if self.len() == 0:
             return
-        current = self.head.next
+        current = self.head
         while self.compare(val, current.value) == -1:
             current = current.next
-        current.prev.next = current.next
-        if current.value is None:
+        if current is None:
             return
-        current.next.prev = current.prev
+        if self.len() == 1:
+            self.head = None
+            self.tail = None
+        elif current == self.tail:
+            self.tail = self.tail.prev
+            self.tail.next = None
+        elif current == self.head:
+            self.head = self.head.next
+            self.head.prev = None
+        else:
+            current.prev.next = current.next
+            current.next.prev = current.prev
         self._size -= 1
 
     def clean(self, asc):
         self.__ascending = asc
-        self.head.next = self.tail
-        self.tail.prev = self.head
+        self.head = None
+        self.tail = None
 
     def len(self):
         return self._size
 
     def get_all(self):
         r = []
-        node = self.head.next
-        while node.value != None:
+        node = self.head
+        while node != None:
             r.append(node)
             node = node.next
         return r
