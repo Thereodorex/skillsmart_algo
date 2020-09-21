@@ -91,6 +91,7 @@ class OrderedList:
         self.__ascending = asc
         self.head = None
         self.tail = None
+        self._size = 0
 
     def len(self):
         return self._size
