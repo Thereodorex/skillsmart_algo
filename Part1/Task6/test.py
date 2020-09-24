@@ -1,7 +1,7 @@
 import unittest
 from Deque import Deque
 
-class TestQueue(unittest.TestCase):
+class TestDeque(unittest.TestCase):
 
     def test_all(self):
         deq = Deque()

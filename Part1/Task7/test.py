@@ -3,7 +3,7 @@ from OrderedList import OrderedList, OrderedStringList
 import sys
 import random
 
-class TestQueue(unittest.TestCase):
+class TestList(unittest.TestCase):
 
     def test_compare(self):
         lst = OrderedList(True)

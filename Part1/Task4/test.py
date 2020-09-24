@@ -1,7 +1,7 @@
 import unittest
 from Stack import Stack, check_bracers, postfix_calc
 
-class TestArray(unittest.TestCase):
+class TestStack(unittest.TestCase):
 
     def test_all(self):
         stack = Stack()
