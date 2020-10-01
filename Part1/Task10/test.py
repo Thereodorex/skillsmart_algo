@@ -24,7 +24,7 @@ class TestNativeArray(unittest.TestCase):
                 #     self.assertTrue(self.bloom.is_value(v))
                 # for j, v in enumerate(self.cases[i:]):
                 #     self.assertFalse(self.bloom.is_value(v))
-                # self.bloom.add(c)
+                self.bloom.add(c)
                 self.assertTrue(self.bloom.is_value(c))
 
 if __name__ == '__main__':

@@ -8,17 +8,20 @@ class BloomFilter:
         for i in range(f_len):
             self.filter = (self.filter << 1) | 1
 
-    def hash1(self, str1):
+    def hash(self, str1, n):
+        '''
+        Плохой вариант хэш-функции
+        '''
         res = 0
-        for i, c in enumerate(str1):
-            res = (res * 17 + ord(c) + i) % self.filter_len
+        for c in str1:
+            res = (res * n + ord(c)) % self.filter_len
         return 1 << res
 
+    def hash1(self, str1):
+        return self.hash(str1, 17)
+
     def hash2(self, str1):
-        res = 0
-        for i, c in enumerate(str1):
-            res = (res * 223 + ord(c) + i) % self.filter_len
-        return 1 << res
+        return self.hash(str1, 223)
 
     def add(self, str1):
         self.mask1 |= self.hash1(str1)
