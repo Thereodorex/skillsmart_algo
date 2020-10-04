@@ -73,7 +73,7 @@ class PowerSet():
     def difference(self, set2):
         newSet = PowerSet()
         for i in self.values:
-            if i is not None and set2.get(i):
+            if i is not None and not set2.get(i):
                 newSet.put(i)
         return newSet
 
