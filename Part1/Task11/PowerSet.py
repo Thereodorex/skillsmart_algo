@@ -47,11 +47,12 @@ class PowerSet():
             if self.values[index] == value:
                 self.values[index] = None
                 self.count -= 1
-                return
+                return True
             if self.values[index] is None:
-                return
+                return False
             index += self.step
             index %= self._size
+        return False
 
     def intersection(self, set2):
         newSet = PowerSet()
