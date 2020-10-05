@@ -20,7 +20,7 @@ class TestNativeArray(unittest.TestCase):
     ]
 
     def get_values(self, s):
-        return s.values
+        return set(s.values)
 
     def test_put(self):
         s = PowerSet()
@@ -30,7 +30,7 @@ class TestNativeArray(unittest.TestCase):
                 self.assertEqual(s.size(), i + 1)
         for k in self.keys:
             with self.subTest(case=k):
-                self.assertTrue(k in self.get_values(s))
+                self.assertTrue(k in s.values)
 
     def test_not_put(self):
         s = PowerSet()
@@ -137,7 +137,7 @@ class TestNativeArray(unittest.TestCase):
     def test10k(self):
         real_set = set()
         my_set = PowerSet()
-        for i in range(20000):
+        for i in range(10000):
             val = ''.join(choice(string.ascii_uppercase) for i in range(10))
             real_set.add(val)
             my_set.put(val)
