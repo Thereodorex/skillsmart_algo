@@ -4,7 +4,7 @@ class PowerSet():
 
     def __init__(self):
         self._size = 20000
-        self.values = [None] * self._size
+        self.values = [[] for i in range(self._size)]
         self.step = 13
         self.count = 0
 
@@ -20,66 +20,62 @@ class PowerSet():
 
     def put(self, value):
         index = self.hash_fun(value)
-        for i in range(self._size):
-            if self.values[index] is None:
-                self.values[index] = value
-                self.count += 1
-                return
-            if self.values[index] == value:
-                return
-            index += self.step
-            index %= self._size
+        if value not in self.values[index]:
+            self.values[index].append(value)
+            self.count += 1
+        # for i in range(self._size):
+        #     if self.values[index] is None:
+        #         self.values[index] = value
+        #         self.count += 1
+        #         return
+        #     if self.values[index] == value:
+        #         return
+        #     index += self.step
+        #     index %= self._size
 
     def get(self, value):
         index = self.hash_fun(value)
-        for i in range(self._size):
-            if self.values[index] == value:
-                return True
-            if self.values[index] is None:
-                return False
-            index += self.step
-            index %= self._size
+        if value in self.values[index]:
+            return True
         return False
 
     def remove(self, value):
         index = self.hash_fun(value)
-        for i in range(self._size):
-            if self.values[index] == value:
-                self.values[index] = None
-                self.count -= 1
-                return True
-            if self.values[index] is None:
-                return False
-            index += self.step
-            index %= self._size
+        if value in self.values[index]:
+            self.values[index].remove(value)
+            self.count -= 1
+            return True
         return False
 
     def intersection(self, set2):
         newSet = PowerSet()
         for i in set2.values:
-            if i is not None and self.get(i):
-                newSet.put(i)
+            for j in i:
+                if self.get(j):
+                    newSet.put(j)
         return newSet
 
     def union(self, set2):
         newSet = PowerSet()
         for i in self.values:
-            if i is not None:
-                newSet.put(i)
+            for j in i:
+                newSet.put(j)
         for i in set2.values:
-            if i is not None:
-                newSet.put(i)
+            for j in i:
+                newSet.put(j)
         return newSet
 
     def difference(self, set2):
         newSet = PowerSet()
         for i in self.values:
-            if i is not None and not set2.get(i):
-                newSet.put(i)
+            for j in i:
+                if not set2.get(j):
+                    newSet.put(j)
         return newSet
 
     def issubset(self, set2):
         for i in set2.values:
-            if i is not None and not self.get(i):
-                return False
+            for j in i:
+                if not self.get(j):
+                    return False
         return True
