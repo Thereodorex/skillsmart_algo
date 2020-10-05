@@ -3,10 +3,11 @@ import hashlib
 class PowerSet():
 
     def __init__(self):
-        self._size = 20000
-        self.values = [[] for i in range(self._size)]
-        self.step = 13
+        self.values = set()
         self.count = 0
+
+    def size(self):
+        return len(self.values)
 
     def hash_fun(self, value):
         '''
@@ -15,14 +16,9 @@ class PowerSet():
         '''
         return hash(value) % self._size
 
-    def size(self):
-        return self.count
-
     def put(self, value):
-        index = self.hash_fun(value)
-        if value not in self.values[index]:
-            self.values[index].append(value)
-            self.count += 1
+        if value not in self.values:
+            self.values.add(value)
         # for i in range(self._size):
         #     if self.values[index] is None:
         #         self.values[index] = value
@@ -34,48 +30,31 @@ class PowerSet():
         #     index %= self._size
 
     def get(self, value):
-        index = self.hash_fun(value)
-        if value in self.values[index]:
-            return True
-        return False
+        return value in self.values
 
     def remove(self, value):
-        index = self.hash_fun(value)
-        if value in self.values[index]:
-            self.values[index].remove(value)
-            self.count -= 1
+        if value in self.values:
+            self.values.remove(value)
             return True
         return False
 
     def intersection(self, set2):
         newSet = PowerSet()
-        for i in set2.values:
-            for j in i:
-                if self.get(j):
-                    newSet.put(j)
+        values = self.values & set2.values
+        newSet.values = values
         return newSet
 
     def union(self, set2):
         newSet = PowerSet()
-        for i in self.values:
-            for j in i:
-                newSet.put(j)
-        for i in set2.values:
-            for j in i:
-                newSet.put(j)
+        values = self.values | set2.values
+        newSet.values = values
         return newSet
 
     def difference(self, set2):
         newSet = PowerSet()
-        for i in self.values:
-            for j in i:
-                if not set2.get(j):
-                    newSet.put(j)
+        values = self.values - set2.values
+        newSet.values = values
         return newSet
 
     def issubset(self, set2):
-        for i in set2.values:
-            for j in i:
-                if not self.get(j):
-                    return False
-        return True
+        return set2.values.issubset(self.values)
